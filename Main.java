@@ -5,7 +5,7 @@ import model.Floor;
 import model.ParkingSlot;
 import service.RepoService;
 import controller.RepoReadController;
-
+import controller.BookingController;
 class Main{
 	public static void main(String[] args){
 //		for(Floor f : FloorRepo.parkingArea){
@@ -33,7 +33,17 @@ class Main{
 //		repoService.printAvailSlots();
 		RepoReadController readCon = new RepoReadController();
 		readCon.showAvail();
+		BookingController bookCon = new BookingController();
+		System.out.println("Booking Slot F13B : ");
+		if(bookCon.bookParkSlot("Bike" , "F13B")){
+			System.out.println("F13B Booked SuccessFully");
+		}
+		else{
+			System.out.println("Already Booked Cannot book");
+		}
 
+		readCon.showAvail();
+		
 		
 	}
 }
