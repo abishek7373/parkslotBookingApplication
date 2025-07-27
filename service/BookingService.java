@@ -8,6 +8,7 @@ import model.Floor;
 import model.ParkingSlot;
 
 public class BookingService{
+//	private Object lock = new Object();
 	public Boolean booker(String slotId , String type , int floor){
 		Floor f = FloorRepo.parkingArea.get(floor);
 		List<ParkingSlot> slots;
@@ -21,11 +22,21 @@ public class BookingService{
 		else{
 			slots = f.getTruckSlots();
 		}
-
 		for(ParkingSlot slot : slots){
-			if(slot.getSlotId().equals(slotId)){
-				slot.book();
-				return true;
+//			synchronized(lock){
+			synchronized(slot){
+				if(slot.getSlotId().equals(slotId)){
+					System.out.println(Thread.currentThread().getName() + " Running. Booking : " + slotId);
+                                	if(!slot.isBooked()){
+                                        	slot.book();
+			                        System.out.println(Thread.currentThread().getName() + " Terminated. SucessFull");
+                                        	return true;
+                                	}
+                                	else{
+		                                System.out.println(Thread.currentThread().getName() + " Terminated. Too Late");
+                                        	return false;
+                                	}
+                        	}
 			}
 		}
 		return false;

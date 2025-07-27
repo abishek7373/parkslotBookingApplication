@@ -32,18 +32,57 @@ class Main{
 //		RepoService repoService = new RepoService();
 //		repoService.printAvailSlots();
 		RepoReadController readCon = new RepoReadController();
-		readCon.showAvail();
+//		readCon.showAvail();
 		BookingController bookCon = new BookingController();
-		System.out.println("Booking Slot F13B : ");
-		if(bookCon.bookParkSlot("Bike" , "F13B")){
-			System.out.println("F13B Booked SuccessFully");
-		}
-		else{
-			System.out.println("Already Booked Cannot book");
-		}
+		Thread thread1 = new Thread(() -> {
+	                if(bookCon.bookParkSlot("Bike" , "F13B")){
+        	                System.out.println("F13B Booked SuccessFully Thread-0");
+               		}
+               		else{
+                       		System.out.println("Already Booked Cannot book Thread-0");
+                	}
 
+//                	readCon.showAvail();
+
+		});
+		Thread thread2 = new Thread(() -> {
+                        if(bookCon.bookParkSlot("Bike" , "F13B")){
+                                System.out.println("F13B Booked SuccessFully Thread-1");
+                        }
+                        else{
+                        	System.out.println("Already Booked Cannot book Thread-1");
+                        }
+
+//                        readCon.showAvail();
+
+                });
+
+                Thread thread3 = new Thread(() -> {
+                        if(bookCon.bookParkSlot("Car" , "F13C")){
+                                System.out.println("F13C Booked SuccessFully Thread-2");
+                        }
+                        else{
+                                System.out.println("Already Booked Cannot book Thread-2");
+                        }
+
+//                        readCon.showAvail();
+
+                });
+
+
+
+		thread1.start();
+		thread2.start();
+		thread3.start();
+
+		try{
+			thread1.join();
+			thread2.join();
+			thread3.join();
+		}
+		catch(InterruptedException e){
+			e.printStackTrace();
+		}
 		readCon.showAvail();
-		
-		
 	}
 }
