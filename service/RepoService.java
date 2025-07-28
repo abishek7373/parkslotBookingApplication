@@ -20,6 +20,33 @@ public class RepoService{
 		}
 	}
 
+	public void printAvailSlots(String type){
+                for(Floor f : FloorRepo.parkingArea){
+			if(type.equals("Bike")){
+                        	System.out.println("\nAvailable " + type + " Slots in Floor : " + f.getFloorId() + "\n");
+                        	List<ParkingSlot> bikes = f.getBikeSlots();
+                        	printer(bikes , "Bike");
+				
+			}
+			else if(type.equals("Car")){
+				System.out.println("\nAvailable " + type + " Slots in Floor : " + f.getFloorId() + "\n");
+	                        List<ParkingSlot> cars = f.getCarSlots();
+	                        printer(cars , "Car");
+
+			}
+			else if(type.equals("Truck")){
+                                System.out.println("\nAvailable " + type + " Slots in Floor : " + f.getFloorId() + "\n");
+        	                List<ParkingSlot> trucks = f.getTruckSlots();
+	                        printer(trucks , "Truck");
+
+			}
+			else{
+				System.out.println("Enter Correct Type , No type Found for your Input");
+			}
+                }
+
+	}
+
 
 	public void printer(List<ParkingSlot> list , String veh){
 		System.out.println(veh + " Slots : ");

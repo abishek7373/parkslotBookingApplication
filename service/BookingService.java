@@ -12,11 +12,13 @@ public class BookingService{
 	public Boolean booker(String slotId , String type , int floor){
 		Floor f = FloorRepo.parkingArea.get(floor);
 		List<ParkingSlot> slots;
-		if(type == "Bike")
+		if(type.equals("Bike"))
 		{
+//			System.out.println("Inside Bike Block");
 			slots = f.getBikeSlots();
 		}
-		else if (type == "Car"){
+		else if (type.equals("Car")){
+//			System.out.println("Inside Car Block");
 			slots = f.getCarSlots();
 		}
 		else{
