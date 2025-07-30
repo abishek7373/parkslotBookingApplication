@@ -1,5 +1,6 @@
 import java.util.*;
 
+import repo.TicketRepo;
 import repo.FloorRepo;
 import model.Floor;
 import model.ParkingSlot;
@@ -16,7 +17,7 @@ class Main{
 	static void callThreads(){
 		System.out.println();
                 Thread thread1 = new Thread(() -> {
-                        if(bookCon.bookParkSlot("Bike" , "F13B")){
+                        if(bookCon.bookParkSlot("Bike" , "F13B" , "thread1" , 5 , "TN38AC12")){
                                 System.out.println("F13B Booked SuccessFully for " + Thread.currentThread().getName());
                         }
                         else{
@@ -27,7 +28,7 @@ class Main{
 
                 });
                 Thread thread2 = new Thread(() -> {
-                        if(bookCon.bookParkSlot("Bike" , "F13B")){
+                        if(bookCon.bookParkSlot("Bike" , "F13B" , "thread2" , 3 , "TN42ZA77")){
                                 System.out.println("F13B Booked SuccessFully for " + Thread.currentThread().getName());
                         }
                         else{
@@ -39,7 +40,7 @@ class Main{
                 });
 
                 Thread thread3 = new Thread(() -> {
-                        if(bookCon.bookParkSlot("Car" , "F13C")){
+                        if(bookCon.bookParkSlot("Car" , "F13C"  , "thread3" , 7 , "TN7AB002")){
                                 System.out.println("F13C Booked SuccessFully for "+ Thread.currentThread().getName());
                         }
                         else{
@@ -77,11 +78,15 @@ class Main{
                         readCon.showAvail(vehicleType);
                         System.out.print("\nEnter the SlotId : ");
                         String slotId = sc.next();
-                        if(bookCon.bookParkSlot(vehicleType , slotId)){
+			System.out.print("\nEnter Your Vehicle Number : ");
+			String vehNum = sc.next();
+			System.out.println("Enter How much Hours You want this Slot : ");
+			int dur = sc.nextInt();
+                        if(bookCon.bookParkSlot(vehicleType , slotId , name , dur , vehNum)){
                                 System.out.println(slotId + " Booked SuccessFully to " + name);
                         }
                         else{
-                                System.out.println("Already Booked Cannot book");
+                                System.out.println("Better Luck Next Time");
                         }
                         System.out.print("Do You Want To Exit : ");
                         String termination = sc.next();
@@ -90,7 +95,29 @@ class Main{
 
 	}
 
+	public static void showAllSlots(){
+		      	for(Floor f : FloorRepo.parkingArea){
+                      		List<ParkingSlot> bikes = f.getBikeSlots();
+                      		System.out.println("Floor : " + f.getFloorId() + "BIkes");
+                      		for(ParkingSlot bike : bikes){
+                              		System.out.println(bike.toString());
+                      		}
+                       		System.out.println("Floor : " + f.getFloorId() + "Cars");
 
+                      		List<ParkingSlot> cars = f.getCarSlots();
+                        	for(ParkingSlot car : cars){
+                              		System.out.println(car.toString());
+                       		}
+                        	System.out.println("Floor : " + f.getFloorId() + "Trucks");
+
+                      		List<ParkingSlot> trucks = f.getTruckSlots();
+                        	for(ParkingSlot truck : trucks){
+                                	System.out.println(truck.toString());
+                        	}
+                      
+              		}
+
+	}
 	public static void main(String[] args){
 //		for(Floor f : FloorRepo.parkingArea){
 //			List<ParkingSlot> bikes = f.getBikeSlots();
@@ -120,8 +147,14 @@ class Main{
 			System.out.println("2) User Input");
 			System.out.println("3) Exit");
 			System.out.print("Enter Your Choice : ");
-			int ch = sc.nextInt();
-				
+			int ch = 0;
+			try{
+				ch = sc.nextInt();
+			}
+			catch(Exception e){
+				System.out.println("Wrong Input Type. Enter a Number from (1 , 2 , 3) .");
+				sc.nextLine();
+			}	
 			switch(ch){
 				case 1:
 					callThreads();
@@ -131,6 +164,15 @@ class Main{
 					break;
 				case 3:
 					return ;
+				case 4:
+					TicketRepo.printTickets();
+					break;
+				case 5:
+					showAllSlots();
+					break;
+				default:
+					System.out.println("Enter Correct Input.");
+					break;
 			}
 
 
