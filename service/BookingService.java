@@ -58,4 +58,22 @@ public class BookingService{
 		System.out.println("No Such Slot Id Enter The Correct Slot Id");
 		return false;
 	}
+
+	public void unbook(ParkingSlot slot , SlotTicket ticket){
+		TicketRepo.tickets.remove(ticket);
+		String slotType = slot.getSlotType();
+		Vehicle slotTypeV = slot.getSlotTypeV();
+		String name = slotTypeV.getName();
+		slot.unbook();
+		if(slotType.equals("Bike")){
+			slot.setSlotType(new Bike());	
+		}
+		else if(slotType.equals("Car")){
+			slot.setSlotType(new Car());
+		}
+		else if(slotType.equals("Truck")){
+			slot.setSlotType(new Truck());
+		}
+		System.out.println("Ticket is Expiered.\nThank You " + name);
+	}
 }

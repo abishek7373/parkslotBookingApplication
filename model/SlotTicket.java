@@ -16,7 +16,9 @@ public class SlotTicket{
 		this.vehType = vehType;
 		this.slotId = slotId;
 	}
-	
+	public String getSlotId(){
+		return slotId;
+	}
 	public void setAmt(int amt){
 		this.amt = amt;
 	}

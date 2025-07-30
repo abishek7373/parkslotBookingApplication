@@ -23,6 +23,9 @@ public class ParkingSlot{
         public String getSlotType(){
                 return slotType.getType();
         }
+	public Vehicle getSlotTypeV(){
+		return slotType;
+	}
 
         public void setSlotType(Vehicle slotType){
                 this.slotType = slotType;
@@ -47,7 +50,7 @@ public class ParkingSlot{
 	
 	@Override
 	public String toString(){
-		return "Slot Id : " + slotId + " Slot Type : "+ getSlotType() + " Is Available : " + isAvail(); 
+		return "Slot Id : " + slotId + " Slot Type : "+ getSlotType() + " Is Available : " + isAvail() + " Booked By : "+ slotType.getName();  
 	}
 }
 

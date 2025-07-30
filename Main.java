@@ -19,17 +19,38 @@ class Main{
                 Thread thread1 = new Thread(() -> {
                         if(bookCon.bookParkSlot("Bike" , "F13B" , "thread1" , 5 , "TN38AC12")){
                                 System.out.println("F13B Booked SuccessFully for " + Thread.currentThread().getName());
-                        }
+                   	        new Thread(() -> {
+                                        try{
+                                                Thread.sleep(20 * 1000);
+                                                bookCon.removeBooking("F13B");
+                                                System.out.println("Slot Id : F13B  is free to Book now . ");
+                                        }catch(InterruptedException e){
+                                                e.printStackTrace();
+                                        }
+                                }).start();
+
+			}
                         else{
                                 System.out.println("Already Booked Cannot book for "+ Thread.currentThread().getName());
                         }
 
 //                      readCon.showAvail();
 
-                });
+		});
                 Thread thread2 = new Thread(() -> {
                         if(bookCon.bookParkSlot("Bike" , "F13B" , "thread2" , 3 , "TN42ZA77")){
                                 System.out.println("F13B Booked SuccessFully for " + Thread.currentThread().getName());
+				new Thread(() -> {
+                                        try{
+                                                Thread.sleep(30 * 1000);
+                                                bookCon.removeBooking("F13B");
+                                                System.out.println("Slot Id : F13B  is free to Book now . ");
+                                        }catch(InterruptedException e){
+                                                e.printStackTrace();
+                                        }
+                                }).start();
+
+
                         }
                         else{
                                 System.out.println("Already Booked Cannot book for " + Thread.currentThread().getName());
@@ -42,6 +63,17 @@ class Main{
                 Thread thread3 = new Thread(() -> {
                         if(bookCon.bookParkSlot("Car" , "F13C"  , "thread3" , 7 , "TN7AB002")){
                                 System.out.println("F13C Booked SuccessFully for "+ Thread.currentThread().getName());
+				new Thread(() -> {
+                                        try{
+                                                Thread.sleep(30 * 1000);
+                                                bookCon.removeBooking("F13C");
+                                                System.out.println("Slot Id : F13C is free to Book now . ");
+                                        }catch(InterruptedException e){
+                                                e.printStackTrace();
+                                        }
+                                }).start();
+
+
                         }
                         else{
                                 System.out.println("Already Booked Cannot book for "+Thread.currentThread().getName());
@@ -84,7 +116,16 @@ class Main{
 			int dur = sc.nextInt();
                         if(bookCon.bookParkSlot(vehicleType , slotId , name , dur , vehNum)){
                                 System.out.println(slotId + " Booked SuccessFully to " + name);
-                        }
+                        	new Thread(() -> {
+					try{
+						Thread.sleep(dur * 1000);
+						bookCon.removeBooking(slotId);
+						System.out.println("Slot Id : " + slotId + " is free to Book now . ");
+					}catch(InterruptedException e){
+						e.printStackTrace();
+					}
+				}).start();
+			}
                         else{
                                 System.out.println("Better Luck Next Time");
                         }
@@ -169,6 +210,11 @@ class Main{
 					break;
 				case 5:
 					showAllSlots();
+					break;
+				case 6:
+					System.out.print("Enter Slot Id to UnBook : ");
+					String slotId = sc.next();
+					bookCon.removeBooking(slotId);
 					break;
 				default:
 					System.out.println("Enter Correct Input.");
