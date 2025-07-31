@@ -29,14 +29,14 @@ public class SlotTicket{
 	}
 
 	public void printTicket(){
-		System.out.println("\n-------PARKING SLOT TICKET-------" + 
+		System.out.println("\n\n-------PARKING SLOT TICKET-------" + 
 				"\nName : " + name +
 				"\nSlot Id : " + slotId +
 				"\nVehicle Type : " + vehType.getType() +
 				"\nVehicle Number : " + vehType.getVehicleNumber() +
 				"\nEnd Time : " + endTime+
 				"\nTotal Amount : " + amt+
-				"\n---------------------------------\n"
+				"\n---------------------------------\n\n"
 				);
 	}
 }

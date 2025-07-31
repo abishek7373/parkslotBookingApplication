@@ -1,6 +1,8 @@
 package service;
 
-import java.util.*;
+import java.util.concurrent.locks.ReentrantLock;
+import java.util.List;
+import java.util.ArrayList;
 import model.SlotTicket;
 import repo.TicketRepo;
 import repo.FloorRepo;
@@ -33,8 +35,11 @@ public class BookingService{
 		}
 		for(ParkingSlot slot : slots){
 //			synchronized(lock){
-			synchronized(slot){
-				if(slot.getSlotId().equals(slotId)){
+			if(slot.getSlotId().equals(slotId)){
+				//synchronized(slot){
+				ReentrantLock lock = slot.getLock();
+				lock.lock();
+				try{
 					System.out.println("\n"+Thread.currentThread().getName() + " Running. Booking : " + slotId);
                                 	if(!slot.isBooked()){
                                         	slot.book();
@@ -52,7 +57,9 @@ public class BookingService{
 		                                System.out.println(Thread.currentThread().getName() + " Terminated. Too Late \n Already Booked");
                                         	return false;
                                 	}
-                        	}
+                        	}finally{
+					lock.unlock();
+				}
 			}
 		}
 		System.out.println("No Such Slot Id Enter The Correct Slot Id");
@@ -74,6 +81,6 @@ public class BookingService{
 		else if(slotType.equals("Truck")){
 			slot.setSlotType(new Truck());
 		}
-		System.out.println("Ticket is Expiered.\nThank You " + name);
+		System.out.println("\n---------------------------------------------------------------------\nTicket Expiered.\nThank You " + name);
 	}
 }

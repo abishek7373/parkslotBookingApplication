@@ -12,18 +12,22 @@ public class Car implements Vehicle {
         	this.name = name;
     	}
 
+	@Override
     	public String getVehicleNumber() {
         	return vehicleNumber;
     	}
 
+	@Override
     	public String getName() {
         	return name;
     	}
 
+	@Override
     	public String getType() {
         	return "Car";
     	}
 
+	@Override
     	public int calculateFee(int hrs){
     		return hrs*20;
     	}

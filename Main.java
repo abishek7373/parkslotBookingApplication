@@ -17,7 +17,7 @@ class Main{
 	static void callThreads(){
 		System.out.println();
                 Thread thread1 = new Thread(() -> {
-                        if(bookCon.bookParkSlot("Bike" , "F13B" , "thread1" , 5 , "TN38AC12")){
+                        if(bookCon.bookParkSlot("Bike" , "F13B" , "thread1" , 20 , "TN38AC12")){
                                 System.out.println("F13B Booked SuccessFully for " + Thread.currentThread().getName());
                    	        new Thread(() -> {
                                         try{
@@ -36,13 +36,13 @@ class Main{
 
 //                      readCon.showAvail();
 
-		});
+		} , "thread1");
                 Thread thread2 = new Thread(() -> {
-                        if(bookCon.bookParkSlot("Bike" , "F13B" , "thread2" , 3 , "TN42ZA77")){
+                        if(bookCon.bookParkSlot("Bike" , "F13B" , "thread2" , 40 , "TN42ZA77")){
                                 System.out.println("F13B Booked SuccessFully for " + Thread.currentThread().getName());
 				new Thread(() -> {
                                         try{
-                                                Thread.sleep(30 * 1000);
+                                                Thread.sleep(40 * 1000);
                                                 bookCon.removeBooking("F13B");
                                                 System.out.println("Slot Id : F13B  is free to Book now . ");
                                         }catch(InterruptedException e){
@@ -58,10 +58,10 @@ class Main{
 
 //                        readCon.showAvail();
 
-                });
+                },"thread2");
 
                 Thread thread3 = new Thread(() -> {
-                        if(bookCon.bookParkSlot("Car" , "F13C"  , "thread3" , 7 , "TN7AB002")){
+                        if(bookCon.bookParkSlot("Car" , "F13C"  , "thread3" , 30 , "TN7AB002")){
                                 System.out.println("F13C Booked SuccessFully for "+ Thread.currentThread().getName());
 				new Thread(() -> {
                                         try{
@@ -81,7 +81,7 @@ class Main{
 
 //                        readCon.showAvail();
 
-                });
+                },"thread3");
 
 
 
@@ -102,17 +102,17 @@ class Main{
 	}
 
 	public static void userInput(){
-		System.out.print("\nEnter Your Name : ");
+		System.out.print("\n-> Enter Your Name : ");
                 String name = sc.next();
                 while(true){
-                        System.out.print("\nEnter Your Vehicle Type (Bike / Car / Truck) : ");
+                        System.out.print("\n-> Enter Your Vehicle Type (Bike / Car / Truck) : ");
                         String vehicleType = sc.next();
                         readCon.showAvail(vehicleType);
-                        System.out.print("\nEnter the SlotId : ");
+                        System.out.print("\n-> Enter the SlotId : ");
                         String slotId = sc.next();
-			System.out.print("\nEnter Your Vehicle Number : ");
+			System.out.print("\n-> Enter Your Vehicle Number : ");
 			String vehNum = sc.next();
-			System.out.println("Enter How much Hours You want this Slot : ");
+			System.out.print("\n-> Enter How much Hours You want this Slot : ");
 			int dur = sc.nextInt();
                         if(bookCon.bookParkSlot(vehicleType , slotId , name , dur , vehNum)){
                                 System.out.println(slotId + " Booked SuccessFully to " + name);
@@ -129,7 +129,7 @@ class Main{
                         else{
                                 System.out.println("Better Luck Next Time");
                         }
-                        System.out.print("Do You Want To Exit : ");
+                        System.out.print("-> Do You Want To Exit : ");
                         String termination = sc.next();
                         if(termination.equals("Yes")) break;
                 }
@@ -137,6 +137,7 @@ class Main{
 	}
 
 	public static void showAllSlots(){
+			System.out.println();
 		      	for(Floor f : FloorRepo.parkingArea){
                       		List<ParkingSlot> bikes = f.getBikeSlots();
                       		System.out.println("Floor : " + f.getFloorId() + "BIkes");
@@ -157,6 +158,8 @@ class Main{
                         	}
                       
               		}
+			System.out.println();
+
 
 	}
 	public static void main(String[] args){
@@ -180,14 +183,14 @@ class Main{
 //                        }
 //			
 //		}
-		System.out.println("------------------------------ Parking Slot Booking Application -----------------------------");
 //		userInput();
 //		callThreads();
 		while(true){
+			System.out.println("------------------------------ Parking Slot Booking Application -----------------------------");
 			System.out.println("1) MultiThread Inputs");
 			System.out.println("2) User Input");
 			System.out.println("3) Exit");
-			System.out.print("Enter Your Choice : ");
+			System.out.print("-> Enter Your Choice : ");
 			int ch = 0;
 			try{
 				ch = sc.nextInt();
@@ -212,12 +215,12 @@ class Main{
 					showAllSlots();
 					break;
 				case 6:
-					System.out.print("Enter Slot Id to UnBook : ");
+					System.out.print("-> Enter Slot Id to UnBook : ");
 					String slotId = sc.next();
 					bookCon.removeBooking(slotId);
 					break;
 				default:
-					System.out.println("Enter Correct Input.");
+					System.out.println("-> Enter Correct Input.");
 					break;
 			}
 

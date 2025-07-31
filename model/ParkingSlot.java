@@ -1,18 +1,21 @@
 package model;
-
+import java.util.concurrent.locks.ReentrantLock;
 import model.vehicle.*;
 
 public class ParkingSlot{
 	String slotId;
 	Vehicle slotType;
 	Boolean isBooked;
-	
+	ReentrantLock lock;
 	public ParkingSlot(String slotId , Vehicle slotType , Boolean isBooked){
 		this.slotId = slotId;
 		this.slotType = slotType;
 		this.isBooked = isBooked;
+		lock = new ReentrantLock(true);
 	}
-
+	public ReentrantLock getLock(){
+		return lock;
+	}
 	public String getSlotId(){
 		return slotId; 
 	}
